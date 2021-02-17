@@ -1,0 +1,8 @@
+.game__balloon {
+  position: absolute;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 1;
+  opacity: 0.9;
+}

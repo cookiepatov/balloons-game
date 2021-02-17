@@ -1,0 +1,7 @@
+.game__needle {
+  width: 20px;
+  height: 150px;
+  object-fit: cover;
+  position: absolute;
+/*   transition: left 0.01s ease-in-out; */
+}

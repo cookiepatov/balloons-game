@@ -1,0 +1,25 @@
+@import url(../vendor/normalize.css);
+
+@import url(../blocks/header/header.css);
+
+@import url(../blocks/content/content.css);
+
+@import url(../blocks/game/game.css);
+@import url(../blocks/game/__scoreboard/game__scoreboard.css);
+@import url(../blocks/game/__score-element/game__score-element.css);
+@import url(../blocks/game/__score-element/_number/game__score-element_number.css);
+@import url(../blocks/game/_visible/game_visible.css);
+@import url(../blocks/game/__balloon/game__balloon.css);
+@import url(../blocks/game/__balloon/_size/game__balloon_size_small.css);
+@import url(../blocks/game/__balloon/_size/game__balloon_size_middle.css);
+@import url(../blocks/game/__balloon/_size/game__balloon_size_large.css);
+@import url(../blocks/game/__balloon/_color/game__balloon_color_blue.css);
+@import url(../blocks/game/__balloon/_color/game__balloon_color_green.css);
+@import url(../blocks/game/__balloon/_color/game__balloon_color_purple.css);
+@import url(../blocks/game/__balloon/_color/game__balloon_color_red.css);
+@import url(../blocks/game/__balloon/_color/game__balloon_color_yellow.css);
+@import url(../blocks/game/__balloon/_exploded/game__balloon_exploded.css);
+@import url(../blocks/game/__needle/game__needle.css);
+@import url(../blocks/game/__control-overlay/game__control-overlay.css);
+
+@import url(../blocks/footer/footer.css);

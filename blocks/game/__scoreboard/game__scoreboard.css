@@ -1,0 +1,11 @@
+.game__scoreboard {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  background-color: rgba(240, 248, 255, 0.5);
+  padding: 5px;
+  border-radius: 40px;
+}
