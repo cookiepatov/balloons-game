@@ -12,15 +12,115 @@
     <header class="header">
     </header>
     <main class="content">
-      <section class="menu">
+      <div class="control-overlay"></div>
+      <section class="menu menu_visible">
+        <nav class="menu__container">
+          <ul class="menu__list">
+            <li class="menu__list-element">
+              <button type="button" class="menu__button" id="start-game">Начать игру</button>
+            </li>
+            <li>
+              <button type="button" class="menu__button" id="settings">Настройки</button>
+            </li>
+          </ul>
+        </nav>
       </section>
-      <section class="game game_visible">
-        <img class="game__needle" alt="игла" src="./images/needle.svg">
+      <section class="settings">
+        <form name="settings" class="form">
+          <div class="form__radio-group">
+            <div class="form__radio-item" title="Мышь">
+              <input class="form__radio-button" id="mouse" name="control" checked type="radio" value="mouse">
+              <label for="mouse" class="form__radio-label form__radio-label_type_mouse">
+
+              </label>
+            </div>
+            <div class="form__radio-item" title="Клавиатура">
+              <input class="form__radio-button" id="keyboard" name="control" type="radio" value="keyboard">
+              <label for="keyboard" class="form__radio-label form__radio-label_type_keyboard">
+
+              </label>
+            </div>
+          </div>
+          <div class="form__radio-group">
+            <div class="form__radio-item" title="Пила">
+              <input class="form__radio-button" id="saw" name="tool" type="radio" value="sawBlade">
+              <label for="saw" class="form__radio-label  form__radio-label_type_saw">
+
+              </label>
+            </div>
+            <div class="form__radio-item" title="Колибри">
+              <input class="form__radio-button" id="bird" name="tool" type="radio" value="bird">
+              <label for="bird" class="form__radio-label  form__radio-label_type_bird">
+
+              </label>
+            </div>
+            <div class="form__radio-item" title="Игла">
+              <input class="form__radio-button" id="needle" name="tool" checked type="radio" value="needle">
+              <label for="needle" class="form__radio-label  form__radio-label_type_needle">
+
+              </label>
+            </div>
+          </div>
+          <div class="form__radio-group">
+            <div class="form__radio-item" title="Ветер вкл.">
+              <input class="form__radio-button" id="wind-on" name="wind" checked type="radio" value="1">
+              <label for="wind-on" class="form__radio-label form__radio-label_type_wind">
+              </label>
+            </div>
+            <div class="form__radio-item" title="Ветер выкл.">
+              <input class="form__radio-button" id="wind-off" name="wind" type="radio" value="0">
+              <label for="wind-off" class="form__radio-label form__radio-label_type_no-wind">
+              </label>
+            </div>
+
+          </div>
+
+          <div class="form__radio-group">
+            <div class="form__radio-item" title="30 секунд">
+              <input class="form__radio-button" id="sec-30" name="time" type="radio" value="30">
+              <label for="sec-30" class="form__radio-label form__radio-label_type_seconds-30">
+              </label>
+            </div>
+            <div class="form__radio-item" title="45 секунд">
+              <input class="form__radio-button" id="sec-45" name="time" type="radio" value="45">
+              <label for="sec-45" class="form__radio-label form__radio-label_type_seconds-45">
+              </label>
+            </div>
+            <div class="form__radio-item" title="60 секунд">
+              <input class="form__radio-button" id="sec-60" name="time" checked type="radio" value="60">
+              <label for="sec-60" class="form__radio-label form__radio-label_type_seconds-60">
+              </label>
+            </div>
+          </div>
+          <div class="form__radio-group">
+            <div class="form__radio-item" title="Легко">
+              <input class="form__radio-button" id="easy" name="difficulty" checked type="radio" value="1">
+              <label for="easy" class="form__radio-label form__radio-label_type_easy">
+              </label>
+            </div>
+            <div class="form__radio-item" title="Средне">
+              <input class="form__radio-button" id="medium" name="difficulty" type="radio" value="2">
+              <label for="medium" class="form__radio-label form__radio-label_type_medium">
+              </label>
+            </div>
+            <div class="form__radio-item" title="Сложно">
+              <input class="form__radio-button" id="hard" name="difficulty" type="radio" value="3">
+              <label for="hard" class="form__radio-label form__radio-label_type_hard">
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="form__button"></button>
+        </form>
+      </section>
+      <section class="game">
+        <div class="game__weapon"></div>
         <div class="game__scoreboard">
-          <p class="game__score-element">Лопнул: <span id="score-popped" class="game__score-element_number">0</span></p>
-          <p class="game__score-element">Пропустил: <span id="score-missed" class="game__score-element_number">0</span></p>
+          <p class="game__score-element">Лопнули: <span id="score-popped" class="game__score-element_number">0</span></p>
+          <p class="game__score-element">Пропустили: <span id="score-missed" class="game__score-element_number">0</span></p>
+          <p class="game__score-element">Очки: <span id="score-points" class="game__score-element_number">0</span></p>
+          <p class="game__score-element">Осталость до конца: <span id="score-time-left" class="game__score-element_number">60 c</span></p>
         </div>
-        <div class="game__control-overlay"></div>
+
       </section>
     </main>
     <footer class="footer">

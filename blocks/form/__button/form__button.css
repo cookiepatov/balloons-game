@@ -1,0 +1,15 @@
+.form__button {
+  background-color: white;
+  width: 100%;
+  background-image: url('../../../images/check-mark.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 60px;
+	border: 1px solid #999;
+  border-radius: 20px;
+  align-self: flex-end;
+  cursor: pointer;
+}
+.form__button:hover {
+  opacity: 0.8;
+}

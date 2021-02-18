@@ -1,0 +1,16 @@
+.form__radio-item {
+	float: left;
+  height: 100px;
+}
+
+.form__radio-item:last-of-type .form__radio-label {
+	border-radius: 0 20px 20px 0;
+	border-right: 1px solid #999;
+}
+.form__radio-item:first-of-type .form__radio-label {
+	border-radius: 20px 0 0 20px;
+}
+
+.form__radio-item:hover {
+  opacity: 0.8;
+}

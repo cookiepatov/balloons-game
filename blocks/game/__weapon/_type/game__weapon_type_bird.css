@@ -1,0 +1,6 @@
+.game__weapon_type_bird{
+  background-image: url('../../../../images/humming-bird.svg');
+  transform: rotate(90deg);
+  width: 100px;
+  height: 100px;
+}

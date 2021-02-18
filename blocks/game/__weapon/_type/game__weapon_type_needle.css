@@ -1,0 +1,5 @@
+.game__weapon_type_needle {
+  background-image: url('../../../../images/needle.svg');
+  width: 20px;
+  height: 150px;
+}

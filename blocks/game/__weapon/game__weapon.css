@@ -1,0 +1,6 @@
+.game__weapon {
+  position: absolute;
+  display: flex;
+  background-size: cover;
+  background-position: center;
+}

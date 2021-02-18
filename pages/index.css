@@ -4,6 +4,40 @@
 
 @import url(../blocks/content/content.css);
 
+@import url(../blocks/control-overlay/control-overlay.css);
+@import url(../blocks/control-overlay/_visible/control-overlay_visible.css);
+
+@import url(../blocks/menu/menu.css);
+@import url(../blocks/menu/_visible/menu_visible.css);
+@import url(../blocks/menu/__container/menu__container.css);
+@import url(../blocks/menu/__list/menu__list.css);
+@import url(../blocks/menu/__list-element/menu__list-element.css);
+@import url(../blocks/menu/__button/menu__button.css);
+
+
+@import url(../blocks/settings/settings.css);
+@import url(../blocks/settings/_visible/settings_visible.css);
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__button/form__button.css);
+@import url(../blocks/form/__label/form__label.css);
+@import url(../blocks/form/__radio-group/form__radio-group.css);
+@import url(../blocks/form/__radio-item/form__radio-item.css);
+@import url(../blocks/form/__radio-button/form__radio-button.css);
+@import url(../blocks/form/__radio-label/form__radio-label.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_keyboard.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_mouse.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_bird.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_needle.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_saw.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_seconds-30.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_seconds-45.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_seconds-60.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_wind.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_no-wind.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_easy.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_medium.css);
+@import url(../blocks/form/__radio-label/_type/form__radio-label_type_hard.css);
+
 @import url(../blocks/game/game.css);
 @import url(../blocks/game/__scoreboard/game__scoreboard.css);
 @import url(../blocks/game/__score-element/game__score-element.css);
@@ -19,7 +53,10 @@
 @import url(../blocks/game/__balloon/_color/game__balloon_color_red.css);
 @import url(../blocks/game/__balloon/_color/game__balloon_color_yellow.css);
 @import url(../blocks/game/__balloon/_exploded/game__balloon_exploded.css);
-@import url(../blocks/game/__needle/game__needle.css);
-@import url(../blocks/game/__control-overlay/game__control-overlay.css);
+@import url(../blocks/game/__weapon/game__weapon.css);
+@import url(../blocks/game/__weapon/_type/game__weapon_type_bird.css);
+@import url(../blocks/game/__weapon/_type/game__weapon_type_needle.css);
+@import url(../blocks/game/__weapon/_type/game__weapon_type_sawblade.css);
+
 
 @import url(../blocks/footer/footer.css);

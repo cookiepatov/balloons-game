@@ -1,35 +1,79 @@
 const game = document.querySelector('.game');
-const control = game.querySelector('.game__control-overlay')
-const needleObject = game.querySelector('.game__needle');
+const control = document.querySelector('.control-overlay')
+const weaponObject = game.querySelector('.game__weapon');
 const balloonTemplate = document.querySelector('.game__balloon-template').content;
-const animationStep = 1;
-const needleStep = 20;
+const weaponStep = 20;
 const explodedTime = 500;
 const scoreBoard = document.querySelector('.game__scoreboard');
 const poppedElement = scoreBoard.querySelector('#score-popped');
 const missedElement = scoreBoard.querySelector('#score-missed');
+const pointsElement = scoreBoard.querySelector('#score-points');
+const timeLeftElement = scoreBoard.querySelector('#score-time-left');
+const menuElement = document.querySelector('.menu')
+const startGameBtn = menuElement.querySelector('#start-game');
+const openSettingsBtn = menuElement.querySelector('#settings');
+const settingsElement = document.querySelector('.settings');
+const form = settingsElement.querySelector('.form')
+
 const field = {
-  object: game,
-  width: game.offsetWidth,
-  height: game.offsetHeight,
+  object: '',
+  width: '',
+  height: ''
 }
 
-const needle = {
-  object: needleObject,
+const penetrators = {
+  needle: {
+    name: 'Игла',
+    class: 'game__weapon_type_needle',
+    leftOffset: 0,
+    pointyEndLength: 80,
+    centerOffset: 10,
+    difficulty: 'Сложно',
+    typeWide: false,
+  },
+  bird: {
+    name: 'Птичка',
+    class: 'game__weapon_type_bird',
+    leftOffset: 0,
+    pointyEndLength: 80,
+    centerOffset: 67,
+    difficulty: 'Средне',
+    typeWide: false,
+  },
+  sawBlade: {
+    name: 'Пила',
+    class: 'game__weapon_type_sawblade',
+    leftOffset: 0,
+    pointyEndLength: 100,
+    centerOffset: 50,
+    difficulty: 'Просто',
+    typeWide: true,
+  }
+}
+
+const currentWeapon = {
+  object: weaponObject,
   leftOffset: 0,
-  pointyEndlength: 80,
+  pointyEndLength: 0,
+  centerOffset: 10,
 }
 
 const gameSettings = {
-  time: 60,
-  difficulty: 2,
+  time: 10,
+  difficulty: 1,
   ongoing: false,
+  controlMode: 'mouse',
+  weapon: 'sawBlade',
+  wind: false,
 }
 
 const results = {
   missed: 0,
   popped: 0,
+  points: 0,
+  timeLeft: 0,
 }
+
 
 
 const ballonSettings = {
@@ -48,33 +92,51 @@ const colors = ['red','blue','green','purple','yellow'];
 
 const sizes = ['s', 'm', 'l'];
 
-const moveNeedle = (direction,target=-1) => {
-  let offset = needle.leftOffset;
+const points = {
+  's': 3,
+  'm': 2,
+  'l': 1,
+}
+
+const initiaizeField = () => {
+  field.object = game;
+  field.width = game.offsetWidth;
+  field.height = game.offsetHeight
+}
+
+
+const selectWeapon = () => { //TODO
+
+}
+
+
+const moveWeapon = (direction,target=-1) => { //TODO
+  let offset = currentWeapon.leftOffset;
   if(target===-1)
   {
-    offset = direction==='left' ? offset-needleStep : offset+needleStep;
+    offset = direction==='left' ? offset-weaponStep : offset+weaponStep;
   }
   else
   {
-    offset=target;
+    offset=target-game.offsetLeft-(currentWeapon.centerOffset);
   }
-  needle.leftOffset=offset;
+  currentWeapon.leftOffset=offset;
   offset+='px';
-  needle.object.style.left=offset;
+  currentWeapon.object.style.left=offset;
 }
 
-const updateResults = (penetrated) =>{
+const updateResults = (penetrated, points=0) => {
   if(penetrated) {
     results.popped++
+    results.points+=points;
     poppedElement.textContent=results.popped;
+    pointsElement.textContent=results.points;
   }
   else {
     results.missed++
     missedElement.textContent=results.missed;
   }
 }
-
-
 
 const clearResults = () => {
   results.popped=0;
@@ -83,45 +145,102 @@ const clearResults = () => {
   missedElement.textContent=results.missed;
 };
 
-const finishGame = () =>{
+const finishGame = () => {
   gameSettings.ongoing=false;
 }
 
-const startGame = (time,difficulty) =>{
+const updateTimer = (time) => {
+  results.timeLeft = time;
+  timeLeftElement.textContent = time + ' с';
+
+}
+
+const applyWeapon = () => {
+  const weaponName = gameSettings.weapon;
+  weaponObject.className='';
+  weaponObject.className=`game__weapon ${penetrators[weaponName].class}`;
+  currentWeapon.centerOffset = penetrators[weaponName].centerOffset;
+  currentWeapon.leftOffset = penetrators[weaponName].leftOffset;
+  currentWeapon.pointyEndLength = penetrators[weaponName].pointyEndLength;
+  currentWeapon.typeWide = penetrators[weaponName].typeWide;
+}
+
+const beginGame = () => {
+  game.classList.add('game_visible');
+  control.classList.add('control-overlay_visible');
+  menuElement.classList.remove('menu_visible');
+  initiaizeField();
+  applyWeapon();
+  startGame(gameSettings.time,gameSettings.difficulty);
+  control.addEventListener('pointermove',mouseHandler);
+}
+
+const openSettings = () => {
+  settingsElement.classList.add('settings_visible');
+  menuElement.classList.remove('menu_visible');
+  form.addEventListener('submit', submitSettings);
+}
+
+const setSettings = () => {
+  const control = form.querySelector('input[name="control"]:checked').value;
+  const weapon = form.querySelector('input[name="tool"]:checked').value;
+  const wind = form.querySelector('input[name="wind"]:checked').value;
+  const time = form.querySelector('input[name="time"]:checked').value;
+  const difficulty = form.querySelector('input[name="difficulty"]:checked').value;
+  gameSettings.time = time;
+  gameSettings.weapon = weapon;
+  gameSettings.wind = wind;
+  gameSettings.difficulty = difficulty;
+  gameSettings.controlMode = control
+}
+
+const submitSettings = (e) => {
+  e.preventDefault();
+  setSettings();
+  settingsElement.classList.remove('settings_visible');
+  menuElement.classList.add('menu_visible');
+  form.removeEventListener('submit', submitSettings);
+}
+
+const startGame = (time,difficulty) => {
   clearResults();
   gameSettings.ongoing=true;
   const firstStage = time/6;
   const secondStage = time/3;
   const thirdStage = time-(time/4);
   for(let i=0;i<time;i++) {
-    let multiplier;
+    let multiplier = 1;
+    let step = 1;
     switch (true){
       case (i>thirdStage) :
-        multiplier=4;
+        multiplier = 2;
+        step = 3
         break;
       case (i>secondStage) :
-        multiplier=3;
+        multiplier = 2;
+        step = 2;
         break;
       case (i>firstStage) :
         multiplier = 2;
+        step = 1;
         break;
-      default :
-        multiplier = 1;
     }
-    for(let n=0;n<multiplier;n++)
+
+    for(let n=0;n<(multiplier*difficulty);n++)
     {
       const color = randomType(colors);
       const size = randomType(sizes);
-      const speed = randomSpeed(i*difficulty);
+      const speed = randomSpeed(difficulty);
       const position = randomPosition(field.width);
       setTimeout(function(){
-        launchBalloon(color, size, speed,position);},i*1000);
+        updateTimer(time-i-1);
+        launchBalloon(color, size, speed, position, step);},i*1000);
     }
   };
 }
 
 const mouseHandler = (e) =>{
-  moveNeedle('right',e.offsetX);
+  moveWeapon('right',e.offsetX);
 }
 
 const randomType = (types) =>{
@@ -134,24 +253,18 @@ const randomPosition = (max)=>{
 }
 
 const randomSpeed = (difficulty) =>{
-  const result = Math.random() * (difficulty - difficulty/2) + difficulty/2 +10
-  console.log(result)
-  return result;
+  const result = Math.random() * (difficulty - difficulty/2) + difficulty/2 + 1;
+  return Math.pow(result, 4);
 }
 
 const keyHandler = (e) =>{
   switch (e.key) {
     case 'ArrowLeft' :
-      moveNeedle('left');
+      moveWeapon('left');
       break;
     case 'ArrowRight' :
-      moveNeedle('right');
+      moveWeapon('right');
       break;
-    case ' ' :
-      if(!gameSettings.ongoing){
-        startGame(gameSettings.time,gameSettings.difficulty);
-      }
-
   }
 }
 
@@ -163,34 +276,44 @@ const createBallon = (color, size, position) => {
   field.object.appendChild(balloon);
   balloon.leftPosition=(position+balloon.offsetWidth)>field.width ? field.width-balloon.offsetWidth : position;
   balloon.style.left=balloon.leftPosition+'px';
+  balloon.points = points[size];
   return balloon;
 }
 
-const launchBalloon = (color='yellow', size='m', speed=1, position=0) => {
+const launchBalloon = (color='yellow', size='m', speed=1, position=0, step=1) => {
   const balloon = createBallon(color, size, position);
-  moveBalloon(balloon, speed);
+  moveBalloon(balloon, speed, step);
 }
 
-const checkForNeedle = (object) => {
-  const needleXPos=needle.leftOffset+(needle.object.offsetWidth/2);
-  const needleYPos=field.height-needle.object.offsetHeight;
-  const objectStart= object.leftPosition;
-  const objectFinish=object.leftPosition+object.offsetWidth;
-  const objectTop=object.bottomPosition+object.offsetHeight;
-  if(needleXPos>objectStart&&
-    needleXPos<objectFinish&&
-    needleYPos<objectTop&&((objectTop-needleYPos)<needle.pointyEndlength))
-    {
-
-      return true
+const checkForWeapon = (object) => {
+  const w = {};
+  const b = {};
+  if(currentWeapon.typeWide) {
+    w.x1 = currentWeapon.object.offsetLeft;
+    w.x2 = currentWeapon.object.offsetWidth+currentWeapon.object.offsetLeft;
+    b.y2 = object.bottomPosition;
+  } else {
+    w.x1 = currentWeapon.object.offsetLeft+currentWeapon.centerOffset;
+    w.x2 = currentWeapon.object.offsetLeft+currentWeapon.centerOffset+1;
+    b.y2 = object.bottomPosition+object.offsetHeight+1;
   }
-  return false;
+  w.y1 = field.height-currentWeapon.object.offsetHeight+currentWeapon.pointyEndLength;
+  w.y2 = field.height-currentWeapon.object.offsetHeight;
+  b.x1 = object.offsetLeft;
+  b.x2 = object.leftPosition+object.offsetWidth;
+  b.y1 = object.bottomPosition+object.offsetHeight;
+  if(w.x1>b.x2||b.x1>w.x2||w.y2>b.y1||b.y2>w.y1) {
+    return false;
+  }
+  else {
+    return true
+  }
 }
 
 const killBalloon = (object, violent) =>{
   if(violent) {
     object.classList.add(ballonSettings['exploded']);
-    updateResults(true);
+    updateResults(true, object.points);
     setTimeout(function(){
       object.remove();
       if(game.querySelector('.game__balloon')===null)
@@ -209,22 +332,30 @@ const killBalloon = (object, violent) =>{
   }
 }
 
-const moveBalloon = (object, speed) => {
+const moveBalloon = (object, speed, step) => {
   setTimeout(function(){
-    object.bottomPosition+=animationStep;
+    object.bottomPosition+=step;
     object.style.bottom = object.bottomPosition+'px';
-    const impaled=checkForNeedle(object)
+    const impaled=checkForWeapon(object)
     if(impaled||object.bottomPosition>(field.height))
     {
       killBalloon(object,impaled)
     }
     else{
-      moveBalloon(object, speed)
+      moveBalloon(object, speed, step)
     }
   },50/speed);
 }
 
-control.addEventListener('pointermove',mouseHandler);
+
 
 document.addEventListener('keydown', keyHandler);
 
+
+
+const init = () => {
+  startGameBtn.addEventListener('click', beginGame);
+  openSettingsBtn.addEventListener('click',openSettings);
+}
+
+init()

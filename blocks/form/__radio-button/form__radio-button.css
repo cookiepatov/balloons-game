@@ -1,0 +1,6 @@
+.form__radio-button {
+  display: none;
+}
+.form__radio-button:checked + label {
+  background-color:#ffe0a6;
+}

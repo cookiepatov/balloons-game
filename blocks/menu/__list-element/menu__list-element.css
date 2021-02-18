@@ -1,0 +1,7 @@
+.menu__list-element {
+  margin-bottom: 20px;
+}
+
+.menu__list-element:last-of-type {
+  margin-bottom: 0;
+}
