@@ -1,0 +1,17 @@
+.game__button {
+    color:black;
+    background-color: blanchedalmond;
+    width: 100px;
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.game__button:hover {
+    color: white;
+    background-color: black;
+}
+

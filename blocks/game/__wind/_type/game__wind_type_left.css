@@ -1,0 +1,27 @@
+.game__wind_type_left {
+  animation: move-left 10s linear infinite forwards;
+  display: block;
+}
+
+
+
+@keyframes move-left {
+  0% {
+    opacity: 0;
+    transform: translateX(0%);
+  }
+  10% {
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateX(-25%);
+  }
+  90% {
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: translate(-50%);
+    opacity: 0;
+  }
+}

@@ -39,6 +39,10 @@
 @import url(../blocks/form/__radio-label/_type/form__radio-label_type_hard.css);
 
 @import url(../blocks/game/game.css);
+@import url(../blocks/game/__wind/game__wind.css);
+@import url(../blocks/game/__wind/_type/game__wind_type_left.css);
+@import url(../blocks/game/__wind/_type/game__wind_type_right.css);
+@import url(../blocks/game/__wind/_noclip/game__wind_noclip.css);
 @import url(../blocks/game/__scoreboard/game__scoreboard.css);
 @import url(../blocks/game/__score-element/game__score-element.css);
 @import url(../blocks/game/__score-element/_number/game__score-element_number.css);
@@ -53,6 +57,14 @@
 @import url(../blocks/game/__balloon/_color/game__balloon_color_red.css);
 @import url(../blocks/game/__balloon/_color/game__balloon_color_yellow.css);
 @import url(../blocks/game/__balloon/_exploded/game__balloon_exploded.css);
+@import url(../blocks/game/__button/game__button.css);
+@import url(../blocks/game/__results/game__results.css);
+@import url(../blocks/game/__results/_visible/game__results_visible.css);
+@import url(../blocks/game/__results-message/game__results-message.css);
+@import url(../blocks/game/__results-element/game__results-element.css);
+@import url(../blocks/game/__results-element/_number/game__results-element_number.css);
+@import url(../blocks/game/__results-controls/game__results-controls.css);
+@import url(../blocks/game/__gif/game__gif.css);
 @import url(../blocks/game/__weapon/game__weapon.css);
 @import url(../blocks/game/__weapon/_type/game__weapon_type_bird.css);
 @import url(../blocks/game/__weapon/_type/game__weapon_type_needle.css);

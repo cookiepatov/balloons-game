@@ -1,0 +1,14 @@
+.game__results {
+  width: 80%;
+  height: 80%;
+  max-width: 400px;
+  max-height: 400px;
+  display: none;
+  background-color: rgba(255, 255, 255, 0.774);
+  margin: auto;
+  flex-direction: column;
+  border-radius: 80px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}

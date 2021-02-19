@@ -1,0 +1,9 @@
+.game__wind {
+  background-image: url('../../../images/wind-particles.svg');
+  width: 200%;
+  height: 100%;
+  position: absolute;
+  background-size: 10%;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}

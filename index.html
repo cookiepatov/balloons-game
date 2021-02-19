@@ -114,13 +114,26 @@
       </section>
       <section class="game">
         <div class="game__weapon"></div>
+        <div class="game__results game__results_visible">
+          <p class="game__results-message">
+            Поздравляю!
+          </p>
+          <img src="images/congrats-gif.gif" alt="Поздравительная гифка или картинка" class="game__gif">
+          <p class="game__results-element">Вам удалось лопнуть: <span id="results-popped" class="game__results-element_number">0</span></p>
+          <p class="game__results-element">Вы пропустили: <span id="results-missed" class="game__results-element_number">0</span></p>
+          <p class="game__results-element">Заработанные очки: <span id="results-points" class="game__results-element_number">0</span></p>
+          <div class="game__results-controls">
+            <button class="game__button" id="restart" type="button">Начать заново</button>
+            <button class="game__button" id="back-to-menu" type="button">Вернуться в меню</button>
+          </div>
+        </div>
         <div class="game__scoreboard">
           <p class="game__score-element">Лопнули: <span id="score-popped" class="game__score-element_number">0</span></p>
           <p class="game__score-element">Пропустили: <span id="score-missed" class="game__score-element_number">0</span></p>
           <p class="game__score-element">Очки: <span id="score-points" class="game__score-element_number">0</span></p>
           <p class="game__score-element">Осталость до конца: <span id="score-time-left" class="game__score-element_number">60 c</span></p>
         </div>
-
+      <div class="game__wind"></div>
       </section>
     </main>
     <footer class="footer">
