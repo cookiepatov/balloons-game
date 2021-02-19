@@ -1,9 +1,11 @@
+import {weaponStep, explodedTime, field,
+  congratulations, penetrators, currentWeapon,
+  gameSettings, results, currentGame,
+  ballonClasses, colors, sizes, points, windDirection} from './utils/data.js';
 const game = document.querySelector('.game');
 const control = document.querySelector('.control-overlay')
 const weaponObject = game.querySelector('.game__weapon');
 const balloonTemplate = document.querySelector('.game__balloon-template').content;
-const weaponStep = 20;
-const explodedTime = 500;
 const scoreBoard = document.querySelector('.game__scoreboard');
 const poppedElement = scoreBoard.querySelector('#score-popped');
 const missedElement = scoreBoard.querySelector('#score-missed');
@@ -21,109 +23,47 @@ const buttonBackToMenu = resultsElement.querySelector('#back-to-menu');
 const congratsMessage = resultsElement.querySelector('.game__results-message');
 const congratsImg = resultsElement.querySelector('.game__gif');
 
-const field = {
-  object: '',
-  width: '',
-  height: ''
-}
-
-const congratulations = ['Чтобы пропустить столько шаров, надо постараться.',
-'Неплохо, но вы можете лучше!',
-'Впечатляет! Вы великолепны!',
-'Вы должно быть действительно ненавидите шары! Шикарный результат!'];
-
-const penetrators = {
-  needle: {
-    name: 'Игла',
-    class: 'game__weapon_type_needle',
-    leftOffset: 0,
-    pointyEndLength: 80,
-    centerOffset: 10,
-    difficulty: 'Сложно',
-    typeWide: false,
-    multiplier: 3,
-  },
-  bird: {
-    name: 'Птичка',
-    class: 'game__weapon_type_bird',
-    leftOffset: 0,
-    pointyEndLength: 80,
-    centerOffset: 67,
-    difficulty: 'Средне',
-    typeWide: false,
-    multiplier: 2,
-  },
-  sawBlade: {
-    name: 'Пила',
-    class: 'game__weapon_type_sawblade',
-    leftOffset: 0,
-    pointyEndLength: 100,
-    centerOffset: 50,
-    difficulty: 'Просто',
-    typeWide: true,
-    multiplier: 1,
-  }
-}
-
-const currentWeapon = {
-  object: '',
-  leftOffset: 0,
-  pointyEndLength: 0,
-  centerOffset: 10,
-}
-
-const gameSettings = {
-  time: 60,
-  difficulty: 1,
-  ongoing: false,
-  controlMode: 'mouse',
-  weapon: 'needle',
-  wind: true,
-}
-
-const results = {
-  missed: 0,
-  popped: 0,
-  points: 0,
-  timeLeft: 0,
-}
-
-const currentGame = {
-  stage: 1,
-  wind: false
-}
-
-
-const ballonClasses = {
-  'red':'game__balloon_color_red',
-  'blue':'game__balloon_color_blue',
-  'green':'game__balloon_color_green',
-  'purple':'game__balloon_color_purple',
-  'yellow':'game__balloon_color_yellow',
-  's':'game__balloon_size_small',
-  'm':'game__balloon_size_middle',
-  'l':'game__balloon_size_large',
-  'exploded':'game__balloon_exploded'
-}
-
-const colors = ['red','blue','green','purple','yellow'];
-
-const sizes = ['s', 'm', 'l'];
-
-const points = {
-  's': 3,
-  'm': 2,
-  'l': 1,
-}
-
-const windDirection = [-1, -1, -1, 0, 1, 1, 1];
-
 const initiaizeField = () => {
   field.object = game;
   field.width = game.offsetWidth;
   field.height = game.offsetHeight
 }
 
+const initializeControls = (controlType) => {
+  if(controlType==='mouse') {
+    control.classList.add('control-overlay_visible');
+    control.addEventListener('pointermove',mouseHandler);
+  } else{
+    document.addEventListener('keydown', keyHandler);
+  }
+}
+
+const applyWeapon = () => {
+  const weaponName = gameSettings.weapon;
+  weaponObject.className='';
+  weaponObject.className=`game__weapon ${penetrators[weaponName].class}`;
+  currentWeapon.centerOffset = penetrators[weaponName].centerOffset;
+  currentWeapon.leftOffset = penetrators[weaponName].leftOffset;
+  currentWeapon.pointyEndLength = penetrators[weaponName].pointyEndLength;
+  currentWeapon.typeWide = penetrators[weaponName].typeWide;
+  currentWeapon.multiplier = penetrators[weaponName].multiplier;
+  currentWeapon.object = weaponObject;
+}
+
+const mouseHandler = (e) =>{
+  moveWeapon('right',e.offsetX);
+}
+
+const keyHandler = (e) =>{
+  switch (e.key) {
+    case 'ArrowLeft' :
+      moveWeapon('left');
+      break;
+    case 'ArrowRight' :
+      moveWeapon('right');
+      break;
+  }
+}
 
 
 const moveWeapon = (direction,target=-1) => {
@@ -165,19 +105,16 @@ const backToMenu = () => {
 
 const clearResults = () => {
   results.popped=0;
-  poppedElement.textContent=results.popped;
   results.missed=0;
-  missedElement.textContent=results.missed;
   results.points=0;
+  poppedElement.textContent=results.popped;
+  missedElement.textContent=results.missed;
   pointsElement.textContent=results.points;
 };
 
 const selectCongratsMessage = (rate, messages) =>{
   const mesCount = messages.length;
   const index = Math.round((mesCount-1)*rate);
-  console.log(index);
-  console.log(rate);
-
   return messages[index];
 }
 
@@ -199,10 +136,7 @@ const setFinalScore = ({missed,popped,points}) => {
 
     congratsImg.src='images/sad-balloon.png'
   }
-
 }
-
-
 
 const setUpCongratsWindow = () => {
   resultsElement.classList.add('game__results_visible');
@@ -211,8 +145,6 @@ const setUpCongratsWindow = () => {
   buttonRestart.addEventListener('click', beginGame);
   buttonBackToMenu.addEventListener('click', backToMenu);
 }
-
-
 
 const finishGame = () => {
   gameSettings.ongoing=false;
@@ -226,27 +158,6 @@ const finishGame = () => {
 const updateTimer = (time) => {
   results.timeLeft = time;
   timeLeftElement.textContent = time + ' с';
-}
-
-const applyWeapon = () => {
-  const weaponName = gameSettings.weapon;
-  weaponObject.className='';
-  weaponObject.className=`game__weapon ${penetrators[weaponName].class}`;
-  currentWeapon.centerOffset = penetrators[weaponName].centerOffset;
-  currentWeapon.leftOffset = penetrators[weaponName].leftOffset;
-  currentWeapon.pointyEndLength = penetrators[weaponName].pointyEndLength;
-  currentWeapon.typeWide = penetrators[weaponName].typeWide;
-  currentWeapon.multiplier = penetrators[weaponName].multiplier;
-  currentWeapon.object = weaponObject;
-}
-
-const initializeControls = (controlType) => {
-  if(controlType==='mouse') {
-    control.classList.add('control-overlay_visible');
-    control.addEventListener('pointermove',mouseHandler);
-  } else{
-    document.addEventListener('keydown', keyHandler);
-  }
 }
 
 const beginGame = () => {
@@ -356,9 +267,7 @@ const startGame = (time,difficulty) => {
   };
 }
 
-const mouseHandler = (e) =>{
-  moveWeapon('right',e.offsetX);
-}
+
 
 const randomType = (types) =>{
   const index = Math.floor((Math.random()*types.length));
@@ -374,16 +283,7 @@ const randomSpeed = (difficulty) =>{
   return Math.pow(result, 4);
 }
 
-const keyHandler = (e) =>{
-  switch (e.key) {
-    case 'ArrowLeft' :
-      moveWeapon('left');
-      break;
-    case 'ArrowRight' :
-      moveWeapon('right');
-      break;
-  }
-}
+
 
 const createBallon = (color, size, position) => {
   const balloon = balloonTemplate.querySelector('.game__balloon').cloneNode(true);
@@ -402,29 +302,22 @@ const launchBalloon = (color='yellow', size='m', speed=1, position=0, step=1) =>
   moveBalloon(balloon, speed, step);
 }
 
-const checkForWeapon = (object) => {
-  const w = {};
-  const b = {};
-  if(currentWeapon.typeWide) {
-    w.x1 = currentWeapon.object.offsetLeft;
-    w.x2 = currentWeapon.object.offsetWidth+currentWeapon.object.offsetLeft;
-    b.y2 = object.bottomPosition;
-  } else {
-    w.x1 = currentWeapon.object.offsetLeft+currentWeapon.centerOffset;
-    w.x2 = currentWeapon.object.offsetLeft+currentWeapon.centerOffset+1;
-    b.y2 = object.bottomPosition+object.offsetHeight+1;
-  }
-  w.y1 = field.height-currentWeapon.object.offsetHeight+currentWeapon.pointyEndLength;
-  w.y2 = field.height-currentWeapon.object.offsetHeight;
-  b.x1 = object.offsetLeft;
-  b.x2 = object.leftPosition+object.offsetWidth;
-  b.y1 = object.bottomPosition+object.offsetHeight;
-  if(w.x1>b.x2||b.x1>w.x2||w.y2>b.y1||b.y2>w.y1) {
-    return false;
-  }
-  else {
-    return true
-  }
+const moveBalloon = (object, speed, step) => {
+  setTimeout(function(){
+    if(currentGame.wind){
+      windAffection(object,currentGame.wind);
+    }
+    object.bottomPosition+=step;
+    object.style.bottom = object.bottomPosition+'px';
+    const impaled=checkForWeapon(object)
+    if(impaled||object.bottomPosition>(field.height))
+    {
+      killBalloon(object,impaled)
+    }
+    else{
+      moveBalloon(object, speed, step)
+    }
+  },50/speed);
 }
 
 const killBalloon = (object, violent) =>{
@@ -464,23 +357,31 @@ const windAffection = (object, wind) => {
   object.style.left = object.leftPosition+'px';
 }
 
-const moveBalloon = (object, speed, step) => {
-  setTimeout(function(){
-    if(currentGame.wind){
-      windAffection(object,currentGame.wind);
-    }
-    object.bottomPosition+=step;
-    object.style.bottom = object.bottomPosition+'px';
-    const impaled=checkForWeapon(object)
-    if(impaled||object.bottomPosition>(field.height))
-    {
-      killBalloon(object,impaled)
-    }
-    else{
-      moveBalloon(object, speed, step)
-    }
-  },50/speed);
+const checkForWeapon = (object) => {
+  const w = {};
+  const b = {};
+  if(currentWeapon.typeWide) {
+    w.x1 = currentWeapon.object.offsetLeft;
+    w.x2 = currentWeapon.object.offsetWidth+currentWeapon.object.offsetLeft;
+    b.y2 = object.bottomPosition;
+  } else {
+    w.x1 = currentWeapon.object.offsetLeft+currentWeapon.centerOffset;
+    w.x2 = currentWeapon.object.offsetLeft+currentWeapon.centerOffset+1;
+    b.y2 = object.bottomPosition+object.offsetHeight+1;
+  }
+  w.y1 = field.height-currentWeapon.object.offsetHeight+currentWeapon.pointyEndLength;
+  w.y2 = field.height-currentWeapon.object.offsetHeight;
+  b.x1 = object.offsetLeft;
+  b.x2 = object.leftPosition+object.offsetWidth;
+  b.y1 = object.bottomPosition+object.offsetHeight;
+  if(w.x1>b.x2||b.x1>w.x2||w.y2>b.y1||b.y2>w.y1) {
+    return false;
+  }
+  else {
+    return true
+  }
 }
+
 
 
 
